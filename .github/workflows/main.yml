@@ -7,10 +7,16 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-18.04]
+        os: [ubuntu-18.04, macos-10.15]
 
     steps:
       - uses: actions/checkout@v1
+
+      - name: setup (linux)
+        if: startsWith(matrix.os, 'ubuntu')
+        run: |
+          sudo apt install clang
+
       - name: compile example
         run: |
           make all
