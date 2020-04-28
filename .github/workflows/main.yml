@@ -1,0 +1,27 @@
+name: CMake
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04]
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: compile example
+        run: |
+          make all
+          # execute tests and get stdout
+          STR=`./test`
+          # expect that this substring is in there
+          SUB="RESULTS: 31 tests (12 ok, 17 failed, 2 skipped)"
+          if [[ "$STR" == *"$SUB"* ]]; then
+            echo "test passed."
+            exit 0
+          else
+            echo "test not passed."
+            exit 1
+          fi
