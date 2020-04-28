@@ -22,6 +22,7 @@ jobs:
           make all
 
       - name: run test
+      - shell: bash
         run: |
           STR=$(./test)
           echo "$STR"
