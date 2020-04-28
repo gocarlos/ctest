@@ -1,0 +1,30 @@
+name: CMake
+
+on: [push, pull_request]
+
+jobs:
+  build_and_test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, macos-10.15]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: setup (linux)
+        if: startsWith(matrix.os, 'ubuntu')
+        run: |
+          sudo apt install clang
+
+      - name: compile test
+        run: |
+          make all
+
+      - name: run test
+      - shell: bash
+        run: |
+          STR=$(./test)
+          echo "$STR"
+          SUB="RESULTS: 31 tests (12 ok, 17 failed, 2 skipped)"
+          echo "$SUB"
