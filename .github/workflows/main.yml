@@ -3,7 +3,7 @@ name: CMake
 on: [push, pull_request]
 
 jobs:
-  build:
+  build_and_test:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -17,12 +17,13 @@ jobs:
         run: |
           sudo apt install clang
 
-      - name: compile example
+      - name: compile test
         run: |
           make all
-          # execute tests and get stdout
+
+      - name: run test
+        run: |
           STR=`./test`
-          # expect that this substring is in there
           SUB="RESULTS: 31 tests (12 ok, 17 failed, 2 skipped)"
           if [[ "$STR" == *"$SUB"* ]]; then
             echo "test passed."
