@@ -23,7 +23,7 @@ jobs:
 
       - name: run test
         run: |
-          STR=`./test`
+          STR=$(./test)
           SUB="RESULTS: 31 tests (12 ok, 17 failed, 2 skipped)"
           if [[ "$STR" == *"$SUB"* ]]; then
             echo "test passed."
